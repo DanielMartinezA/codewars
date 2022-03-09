@@ -27,6 +27,7 @@ function solution(number){
   return (3 * n3 * (n3 + 1) + 5 * n5 * (n5 + 1) - 15 * n15 * (n15+1)) /2;
 }
 // expanded and explained solution:
+// https://www.cuemath.com/sum-of-arithmetic-sequence-formula/
 function solutionExp(number){
   function SAS(n, start, end) { //sumArithmeticSequence
     return n*(start+end)/2;
