@@ -1,0 +1,20 @@
+/*
+There is an array with some numbers.
+All numbers are equal except for one. Try to find it!
+
+findUniq([ 1, 1, 1, 2, 1, 1 ]) === 2
+findUniq([ 0, 0, 0.55, 0, 0 ]) === 0.55
+
+It’s guaranteed that array contains at least 3 numbers.
+The tests contain some very huge arrays, so think about performance.
+*/
+function findUniq(arr) {
+  let countObj = {}
+  arr.forEach(elem => countObj[elem] ? countObj[elem]++ : countObj[elem] = 1);
+  return Number(Object.keys(countObj).find(key => countObj[key] === 1))
+}
+
+// better than my solution, it O(2n) but doesn't create additional structures.
+function findUniq(arr) {
+  return arr.find(n => arr.indexOf(n) === arr.lastIndexOf(n));
+}
