@@ -19,81 +19,43 @@ If the digits can't be rearranged to form a bigger number, return -1:
 531 ==> -1
 */
 function nextGreaterPermutation(num) {
-  let digits = String(num).split("")
-  //digits.forEach((elem, index, arr) => {arr[index] = Number(elem)})
-  // start by swapping the last two digits, that way, you are changing the number the least.
-  // if (perm(last-two) > last-two) then return rest+perm(last-two)
-  // else
-  //  I put the next largest of the last three on the 3rd to last position and arrange the other two to form the lowest
-  //  number
-  //  If the 3rd to last number is already the highest of the last three, then I put the next largest number of the
-  //  last four, in the 4rd to last position and arrange the other three to form the lowest number.
-  let ans = -1
-  let range = 2
-  while (range <= digits.length) {
-    if (range === 2) {
+  let numArray = String(num).split("")
 
-    }
-  }
-  return ans
-}
-function nextLargest2(num) {
-  let digits = String(num).split("")
-  if (digits[0] < digits[1]) {
-    return Number(digits[1] + digits[0])
-  } else {
+  if (numArray.length == 1) {
     return -1
   }
-}
-function nextLargest3(num) {
-  let digits = String(num).split("")
-  if (digits[1] < digits[2]) {
-    return Number(digits[0] + digits[2] + digits[1])
-  } else {
-    uniqueDigits = digits.sort()
-    if (digits[0] !== uniqueDigits[uniqueDigits.length - 1]) {
-      // i.e 271
+
+  // find at what point there's a suffix that's not in descending order
+  let index = numArray.length - 2
+  while (index >= 0 && numArray[index] >= numArray[index + 1]) {
+    index--
+  }
+
+  // if the whole number is in descending order, return -1
+  if (index < 0) {
+    return -1
+  }
+
+  let suffix = numArray.slice(index)
+  // after finding the first suffix that's not in descending order
+  // swap the suffix's first value with its next bigger one in the suffix
+  let nextBiggerDigit = '9'
+  let nextBiggerDigitIndex = 1
+  for (let i = 1; i < suffix.length; i++) {
+    if (suffix[i] > suffix[0] && suffix[i] < nextBiggerDigit) {
+      nextBiggerDigit = suffix[i]
+      nextBiggerDigitIndex = i
     }
   }
+
+  // swap
+  suffix[nextBiggerDigitIndex] = suffix[0]
+  suffix[0] = nextBiggerDigit
+
+  // create the new number prefix + suffix[0] + suffix.slice(1).sort()
+  prefix = numArray.slice(0, index).join('')
+  middle = suffix[0]
+  suffix = suffix.slice(1).sort().join('')
+
+  return Number(prefix + middle + suffix)
 }
-// A brute force solution is to get an array with all the permutations of the number's digits, find the current
-// number at position i and return the number at i+1 or -1 if it is the last one in the array.
-// The number of permutations is n! i.e. for n=4, it's 4! = 24
-/*
-0127
-0172
-0217
-0271
-0712
-0721
-1027
-1072
-1207
-1270
-1702
-1720
-2017
-2071-
-2107-
-2170
-2701
-2710
-7012
-7021
-7102
-7120
-7201
-7210
-//---------------
-[3,6,9]
-93369
-93396
-93639
-93693
-93936
-93963
-93963
-
-
-96369
-*/
